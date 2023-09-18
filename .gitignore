@@ -1,6 +1,12 @@
+.vscode
 .gradle
+
+# Ignore Gradle build directory
 **/build/
 !src/**/build/
+
+# Ignore credentials files
+**/credentials/
 
 # Ignore Gradle GUI config
 gradle-app.setting
@@ -19,3 +25,6 @@ gradle-app.setting
 .project
 # JDT-specific (Eclipse Java Development Tools)
 .classpath
+
+# Ignore Gradle build output directory
+build
