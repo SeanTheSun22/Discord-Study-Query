@@ -5,11 +5,14 @@ package discordstudyquery;
 
 import discordstudyquery.database.DatabaseManager;
 import discordstudyquery.database.DemoApplication;
+import discordstudyquery.discord.Client;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        DatabaseManager.createLogin("SeanTheSunUser", "");
-        DatabaseManager.createUser("SeanTheSunUser");
-        DemoApplication.main(args);
+        // DatabaseManager databaseManager = new DatabaseManager();
+        // DemoApplication demoApplication = new DemoApplication(databaseManager);
+        // demoApplication.run();
+
+        Client.main(args);
     }
 }
