@@ -12,7 +12,7 @@ public class App {
         // DatabaseManager databaseManager = new DatabaseManager();
         // DemoApplication demoApplication = new DemoApplication(databaseManager);
         // demoApplication.run();
-
-        Client.main(args);
+        Client client = new Client();
+        client.init();
     }
 }
