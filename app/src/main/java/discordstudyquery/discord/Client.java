@@ -30,6 +30,7 @@ public class Client {
             return;
         }
 
+        @SuppressWarnings("unused")
         JDA jda = JDABuilder.createDefault(token)
             .enableIntents(GatewayIntent.MESSAGE_CONTENT)
             .addEventListeners(new CreateThreadListener())

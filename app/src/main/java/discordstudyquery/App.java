@@ -3,8 +3,6 @@
  */
 package discordstudyquery;
 
-import discordstudyquery.database.DatabaseManager;
-import discordstudyquery.database.DemoApplication;
 import discordstudyquery.discord.Client;
 
 public class App {
