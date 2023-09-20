@@ -3,14 +3,7 @@
  */
 package discordstudyquery;
 
-import discordstudyquery.discord.Client;
-
 public class App {
     public static void main(String[] args) throws Exception {
-        // DatabaseManager databaseManager = new DatabaseManager();
-        // DemoApplication demoApplication = new DemoApplication(databaseManager);
-        // demoApplication.run();
-        Client client = new Client();
-        client.init();
     }
 }

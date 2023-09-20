@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
-public class Client {
+public class DiscordClient {
     public void init() {
         String token;
         try {
@@ -44,7 +44,7 @@ public class Client {
          *     "token":"<token>"
          * }
          */
-        InputStream inputStream = Client.class.getClassLoader().getResourceAsStream("credentials/discord/token.json");
+        InputStream inputStream = DiscordClient.class.getClassLoader().getResourceAsStream("credentials/discord/token.json");
         if (inputStream == null) {throw new FileNotFoundException("File not found: " + "credentials/discord/token.json");}
         Map<String, String> token = new ObjectMapper().readValue(inputStream, new TypeReference<Map<String, String>>() {});
         return token.get("token");
