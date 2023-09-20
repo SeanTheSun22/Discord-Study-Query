@@ -3,6 +3,8 @@ package discordstudyquery.discord;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import discordstudyquery.discord.listeners.CreateThreadListener;
+import discordstudyquery.discord.listeners.LoadComponentListener;
+import discordstudyquery.guild.DiscordModel;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 
@@ -33,7 +35,9 @@ public class DiscordClient {
         @SuppressWarnings("unused")
         JDA jda = JDABuilder.createDefault(token)
             .enableIntents(GatewayIntent.MESSAGE_CONTENT)
-            .addEventListeners(new CreateThreadListener())
+            .addEventListeners(
+                new CreateThreadListener(),
+                new LoadComponentListener(new DiscordModel()))
             .build();
     }
 

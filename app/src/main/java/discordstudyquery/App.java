@@ -5,10 +5,12 @@ package discordstudyquery;
 
 import discordstudyquery.database.DatabaseEditor;
 import discordstudyquery.database.DatabaseManager;
+import discordstudyquery.discord.DiscordClient;
 import discordstudyquery.adapter.GuildAdapter;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        System.out.println(DatabaseEditor.getGuildFromSQL(new GuildAdapter("Test", 2L)));
+        DatabaseManager.createDiscordModelTable();
+        new DiscordClient().init();
     }
 }

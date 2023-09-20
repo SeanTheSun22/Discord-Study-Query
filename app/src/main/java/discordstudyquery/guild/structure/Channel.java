@@ -6,6 +6,9 @@ public class Channel extends AbstractDiscordContainer {
     public Channel(String name, Long id, Category parent) {
         super(name, id, parent);
     }
+    public Channel(String name, Long id, Guild parent) {
+        super(name, id, parent);
+    }
 
     public void loadChild(ComponentAdapter adapter) {
         Thread child = new Thread(adapter.getName(), adapter.getID(), this);

@@ -24,10 +24,6 @@ public abstract class AbstractDiscordContainer {
         if (parent != null) {parent.addChild(this);}
     }
 
-    private void setName(String name) {this.name = name;}
-    private String getName() {return this.name;}
-    private Long getId() {return this.id;}
-
     public void registerToParent(AbstractDiscordContainer parent) {
         unregister();
         this.setParent(parent);
