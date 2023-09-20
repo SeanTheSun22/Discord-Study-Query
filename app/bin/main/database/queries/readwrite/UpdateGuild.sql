@@ -1,0 +1,1 @@
+INSERT INTO Guilds (GuildID, Name) VALUES ({0}, '{1}');

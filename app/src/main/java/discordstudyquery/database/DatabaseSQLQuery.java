@@ -5,8 +5,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -50,6 +53,43 @@ public class DatabaseSQLQuery {
         }
 
         connection.close();
+    }
+
+    public static Object[] getSQLQueryWithResult(String queryFilePath, String credentialFilePath, String[] arguments) throws SQLException {
+        /*
+         * Runs the SQL query in the file at resources/database/queries/<filePath>
+         */
+
+        Map<String, String> credentials;
+        try {
+            credentials = readCredentials("credentials/database/" + credentialFilePath);
+        } catch (FileNotFoundException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            return null;
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
+
+        Connection connection = DriverManager.getConnection(credentials.get("url"), credentials.get("username"), credentials.get("password"));
+
+        Scanner scanner = new Scanner(DatabaseManager.class.getClassLoader().getResourceAsStream("database/queries/" + queryFilePath));
+        ArrayList<String> executeString = new ArrayList<String>();
+        while (scanner.hasNextLine()) {
+            String currentLine = scanner.nextLine();
+            for (int i = 0; i < arguments.length; i++) {
+                currentLine = currentLine.replace("{" + i + "}", arguments[i]);
+            }
+            executeString.add(currentLine);
+        }
+        scanner.close();
+        System.out.println(String.join(" ", executeString));
+        PreparedStatement preparedStatement = connection.prepareStatement(String.join(" ", executeString));
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        return new Object[] {connection, resultSet};
     }
 
     public static Map<String, String> readCredentials(String filePath) throws FileNotFoundException, IOException {
