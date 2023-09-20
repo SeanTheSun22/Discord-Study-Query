@@ -10,10 +10,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Map;
-import java.util.Properties;
-import java.util.Scanner;
 
 public class DatabaseManager {
     public static void createLogin(String username, String password) throws SQLException {

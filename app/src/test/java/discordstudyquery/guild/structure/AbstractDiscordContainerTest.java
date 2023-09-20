@@ -14,11 +14,11 @@ public class AbstractDiscordContainerTest {
 
     @BeforeEach
     public void createStructure() {
-        shard = new Shard("shard", "1");
-        guild = new Guild("guild", "2", shard);
-        category = new Category("category", "3", guild);
-        channel = new Channel("channel", "4", category);
-        thread = new Thread("thread", "5", channel);
+        shard = new Shard("shard", 1L);
+        guild = new Guild("guild", 2L, shard);
+        category = new Category("category", 3L, guild);
+        channel = new Channel("channel", 4L, category);
+        thread = new Thread("thread", 5L, channel);
     }
 
     @Test
@@ -42,12 +42,12 @@ public class AbstractDiscordContainerTest {
         /*
          * Check whether the registerToParent method sets the parent and children correctly.
          */
-        Guild guild2 = new Guild("guild2", "6", null);
+        Guild guild2 = new Guild("guild2", 6L, null);
         guild2.registerToParent(shard); 
         assertTrue(shard.getChildren().contains(guild2));
         assertTrue(guild2.getParent().equals(shard));
 
-        Shard shard2 = new Shard("shard2", "7");
+        Shard shard2 = new Shard("shard2", 7L);
         guild.registerToParent(shard2);
         assertTrue(shard2.getChildren().contains(guild));
         assertTrue(guild.getParent().equals(shard2));
@@ -69,12 +69,12 @@ public class AbstractDiscordContainerTest {
         /*
          * Check whether the registerChild method sets the parent and children correctly.
          */
-        Category category2 = new Category("category2", "6", null);
+        Category category2 = new Category("category2", 6L, null);
         guild.registerChild(category2);
         assertTrue(guild.getChildren().contains(category2));
         assertTrue(category2.getParent().equals(guild));
 
-        Guild guild2 = new Guild("guild2", "7", null);
+        Guild guild2 = new Guild("guild2", 7L, null);
         guild2.registerChild(category);
         assertTrue(guild2.getChildren().contains(category));
         assertTrue(category.getParent().equals(guild2));
@@ -103,7 +103,7 @@ public class AbstractDiscordContainerTest {
             "\t\t\tchannel\n" +
             "\t\t\t\tthread"));
 
-        Guild guild2 = new Guild("guild2", "6", null);
+        Guild guild2 = new Guild("guild2", 6L, null);
         guild2.registerToParent(shard);
 
         assertTrue(shard.toString().equals(
