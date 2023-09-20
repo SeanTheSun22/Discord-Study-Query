@@ -114,4 +114,16 @@ public class DatabaseEditor {
             return getThreadFromSQL(inputThread);
         }
     }
+
+    public static void pushThreadToSQL(ThreadAdapter thread, Long userID) {
+        try {
+            DatabaseSQLQuery.runSQLQuery("readwrite/InsertNewThread.sql", "UserDatabase.json", new String[] {thread.getID().toString(), thread.getParentID().toString(), thread.getName(), userID.toString()});
+        } catch (SQLException e) {
+            System.out.println("Error updating thread " + thread.getName() + " in database, retrying...");
+            try {Thread.sleep(1000);} catch (InterruptedException e2) {}
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            pushThreadToSQL(thread, userID);
+        }
+    }
 }

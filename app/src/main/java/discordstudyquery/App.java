@@ -3,10 +3,8 @@
  */
 package discordstudyquery;
 
-import discordstudyquery.database.DatabaseEditor;
 import discordstudyquery.database.DatabaseManager;
 import discordstudyquery.discord.DiscordClient;
-import discordstudyquery.adapter.GuildAdapter;
 
 public class App {
     public static void main(String[] args) throws Exception {

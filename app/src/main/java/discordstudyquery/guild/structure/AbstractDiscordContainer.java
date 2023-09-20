@@ -14,6 +14,7 @@ public abstract class AbstractDiscordContainer {
 
     private String name;
     private Long id;
+    private Long lastUpdatedTime;
     private AbstractDiscordContainer parent;
     private ArrayList<AbstractDiscordContainer> children = new ArrayList<AbstractDiscordContainer>();
 
@@ -21,7 +22,13 @@ public abstract class AbstractDiscordContainer {
         this.name = name;
         this.id = id;
         this.parent = parent;
+        updated();
         if (parent != null) {parent.addChild(this);}
+    }
+
+    private void updated() {
+        lastUpdatedTime = System.currentTimeMillis();
+        if (this.getParent() != null) {this.getParent().updated();}
     }
 
     public void registerToParent(AbstractDiscordContainer parent) {
@@ -71,7 +78,10 @@ public abstract class AbstractDiscordContainer {
     }
 
     public boolean contains(Long id) {
-        if (this.equals(id)) {return true;}
+        if (this.equals(id)) {
+            updated();
+            return true;
+        }
         for (AbstractDiscordContainer child : this.children) {
             if (child.contains(id)) {return true;}
         }

@@ -32,12 +32,14 @@ public class DiscordClient {
             return;
         }
 
+        DiscordModel model = new DiscordModel();
+
         @SuppressWarnings("unused")
         JDA jda = JDABuilder.createDefault(token)
             .enableIntents(GatewayIntent.MESSAGE_CONTENT)
             .addEventListeners(
-                new CreateThreadListener(),
-                new LoadComponentListener(new DiscordModel()))
+                new CreateThreadListener(model),
+                new LoadComponentListener(model))
             .build();
     }
 

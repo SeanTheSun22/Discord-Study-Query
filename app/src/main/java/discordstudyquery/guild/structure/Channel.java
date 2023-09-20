@@ -1,6 +1,8 @@
 package discordstudyquery.guild.structure;
 
 import discordstudyquery.adapter.ComponentAdapter;
+import discordstudyquery.adapter.ThreadAdapter;
+import discordstudyquery.database.DatabaseEditor;
 
 public class Channel extends AbstractDiscordContainer {
     public Channel(String name, Long id, Category parent) {
@@ -11,7 +13,8 @@ public class Channel extends AbstractDiscordContainer {
     }
 
     public void loadChild(ComponentAdapter adapter) {
-        Thread child = new Thread(adapter.getName(), adapter.getID(), this);
+        ThreadAdapter threadAdapter = DatabaseEditor.getThreadFromSQL((ThreadAdapter) adapter);
+        Thread child = new Thread(threadAdapter.getName(), threadAdapter.getID(), this);
         registerChild(child);
     }
 }
