@@ -1,7 +1,6 @@
 package discordstudyquery.guild;
 
 import discordstudyquery.guild.structure.Shard;
-import net.dv8tion.jda.api.interactions.components.Component;
 import discordstudyquery.adapter.ComponentAdapter;
 import discordstudyquery.guild.structure.AbstractDiscordContainer;
 
