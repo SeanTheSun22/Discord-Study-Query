@@ -32,7 +32,7 @@ public class LoadComponentListener extends ListenerAdapter {
         }
         public void run() {
             if (model.contains(Long.valueOf(event.getChannel().getId()))) return;
-            
+            if (event.getAuthor().isBot() && !(event.getAuthor().getIdLong() == event.getJDA().getSelfUser().getIdLong())) return;
             ArrayList<AbstractJDAAdapter> componentStack = new ArrayList<AbstractJDAAdapter>();
             switch(event.getChannelType()) {
                 case TEXT:
