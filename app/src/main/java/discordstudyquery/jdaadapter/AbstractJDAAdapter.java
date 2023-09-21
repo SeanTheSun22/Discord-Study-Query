@@ -1,9 +1,9 @@
-package discordstudyquery.adapter;
+package discordstudyquery.jdaadapter;
 
-public class ComponentAdapter {
+public class AbstractJDAAdapter {
     String name;
     Long id;
-    public ComponentAdapter(String name, Long id) {
+    public AbstractJDAAdapter(String name, Long id) {
         this.name = name;
         this.id = id;
     }

@@ -4,126 +4,179 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import discordstudyquery.database.databaseadapter.CategoryDatabaseAdapter;
+import discordstudyquery.database.databaseadapter.ChannelDatabaseAdapter;
+import discordstudyquery.database.databaseadapter.GuildDatabaseAdapter;
+import discordstudyquery.database.databaseadapter.ThreadDatabaseAdapter;
 
-import discordstudyquery.adapter.GuildAdapter;
-import discordstudyquery.adapter.CategoryAdapter;
-import discordstudyquery.adapter.ChannelAdapter;
-import discordstudyquery.adapter.ThreadAdapter;
+import discordstudyquery.guild.structure.Guild;
+import discordstudyquery.guild.structure.Category;
+import discordstudyquery.guild.structure.Channel;
+import discordstudyquery.guild.structure.Thread;
 
 public class DatabaseEditor {
-    public static GuildAdapter getGuildFromSQL(GuildAdapter inputGuild) {
+    public static GuildDatabaseAdapter getGuildFromSQL(Long id) {
         try {
-            Object[] connectionData = DatabaseSQLQuery.getSQLQueryWithResult("readwrite/GetGuildWithID.sql", "UserDatabase.json", new String[] {inputGuild.getID().toString()});
+            Object[] connectionData = DatabaseSQLQuery.getSQLQueryWithResult("readwrite/GetGuildWithID.sql", "UserDatabase.json", new String[] {id.toString()});
             ResultSet rs = (ResultSet) connectionData[1];
             rs.next();
-            GuildAdapter guild = new GuildAdapter(rs.getString("Name"), rs.getLong("GuildID"));
+            // use rs.getString("field") to get the data from the result set
+            GuildDatabaseAdapter guild = new GuildDatabaseAdapter(id);
             ((Connection) connectionData[0]).close();
             return guild;
         } catch (SQLException e) {
             if (e.getMessage().equals("The result set has no current row.")) {
-                GuildAdapter guild = new GuildAdapter(inputGuild.getName(), inputGuild.getID());
+                GuildDatabaseAdapter guild = new GuildDatabaseAdapter(id);
                 try {
-                    DatabaseSQLQuery.runSQLQuery("readwrite/InsertGuild.sql", "UserDatabase.json", new String[] {guild.getID().toString(), guild.getName()});
+                    DatabaseSQLQuery.runSQLQuery("readwrite/InsertGuild.sql", "UserDatabase.json", new String[] {id.toString()});
                     return guild;
                 } catch (SQLException e1) {
-                    System.out.println("Error updating guild " + guild.getName() + " in database, retrying...");
-                    try {Thread.sleep(1000);} catch (InterruptedException e2) {}
+                    System.out.println("Guild not inserted to database but sucessfully loaded");
                     System.out.println(e1.getMessage());
                     e1.printStackTrace();
                     return guild;
                 }
             }
-            return getGuildFromSQL(inputGuild);
+            return getGuildFromSQL(id);
         }
     }
 
-    public static CategoryAdapter getCategoryFromSQL(CategoryAdapter inputCategory) {
+    public static CategoryDatabaseAdapter getCategoryFromSQL(Long id) {
         try {
-            Object[] connectionData = DatabaseSQLQuery.getSQLQueryWithResult("readwrite/GetCategoryWithID.sql", "UserDatabase.json", new String[] {inputCategory.getID().toString()});
+            Object[] connectionData = DatabaseSQLQuery.getSQLQueryWithResult("readwrite/GetCategoryWithID.sql", "UserDatabase.json", new String[] {id.toString()});
             ResultSet rs = (ResultSet) connectionData[1];
             rs.next();
-            CategoryAdapter category = new CategoryAdapter(rs.getString("Name"), rs.getLong("CategoryID"), rs.getLong("ParentID"));
+            // use rs.getString("field") to get the data from the result set
+            CategoryDatabaseAdapter category = new CategoryDatabaseAdapter(id);
             ((Connection) connectionData[0]).close();
             return category;
         } catch (SQLException e) {
             if (e.getMessage().equals("The result set has no current row.")) {
-                CategoryAdapter category = new CategoryAdapter(inputCategory.getName(), inputCategory.getID(), inputCategory.getParentID());
+                CategoryDatabaseAdapter category = new CategoryDatabaseAdapter(id);
                 try {
-                    DatabaseSQLQuery.runSQLQuery("readwrite/InsertCategory.sql", "UserDatabase.json", new String[] {category.getID().toString(), category.getParentID().toString(),category.getName()});
+                    DatabaseSQLQuery.runSQLQuery("readwrite/InsertCategory.sql", "UserDatabase.json", new String[] {id.toString()});
                     return category;
                 } catch (SQLException e1) {
-                    System.out.println("Error updating category " + inputCategory.getName() + " in database, retrying...");
-                    try {Thread.sleep(1000);} catch (InterruptedException e2) {}
+                    System.out.println("Category not inserted to database but sucessfully loaded");
                     System.out.println(e1.getMessage());
                     e1.printStackTrace();
                     return category;
                 }
             }
-            return getCategoryFromSQL(inputCategory);
+            return getCategoryFromSQL(id);
         }
     }
-
-    public static ChannelAdapter getChannelFromSQL(ChannelAdapter inputChannel) {
+    
+    public static ChannelDatabaseAdapter getChannelFromSQL(Long id) {
         try {
-            Object[] connectionData = DatabaseSQLQuery.getSQLQueryWithResult("readwrite/GetChannelWithID.sql", "UserDatabase.json", new String[] {inputChannel.getID().toString()});
+            Object[] connectionData = DatabaseSQLQuery.getSQLQueryWithResult("readwrite/GetChannelWithID.sql", "UserDatabase.json", new String[] {id.toString()});
             ResultSet rs = (ResultSet) connectionData[1];
             rs.next();
-            ChannelAdapter channel = new ChannelAdapter(rs.getString("Name"), rs.getLong("ChannelID"), rs.getLong("ParentID"));
+            // use rs.getString("field") to get the data from the result set
+            ChannelDatabaseAdapter channel = new ChannelDatabaseAdapter(id);
             ((Connection) connectionData[0]).close();
             return channel;
         } catch (SQLException e) {
             if (e.getMessage().equals("The result set has no current row.")) {
-                ChannelAdapter channel = new ChannelAdapter(inputChannel.getName(), inputChannel.getID(), inputChannel.getParentID());
+                ChannelDatabaseAdapter channel = new ChannelDatabaseAdapter(id);
                 try {
-                    DatabaseSQLQuery.runSQLQuery("readwrite/InsertChannel.sql", "UserDatabase.json", new String[] {channel.getID().toString(), channel.getParentID().toString(), channel.getName()});
+                    DatabaseSQLQuery.runSQLQuery("readwrite/InsertChannel.sql", "UserDatabase.json", new String[] {id.toString()});
                     return channel;
                 } catch (SQLException e1) {
-                    System.out.println("Error updating channel " + inputChannel.getName() + " in database, retrying...");
-                    try {Thread.sleep(1000);} catch (InterruptedException e2) {}
+                    System.out.println("Channel not inserted to database but sucessfully loaded");
                     System.out.println(e1.getMessage());
                     e1.printStackTrace();
                     return channel;
                 }
             }
-            return getChannelFromSQL(inputChannel);
+            return getChannelFromSQL(id);
         }
     }
 
-    public static ThreadAdapter getThreadFromSQL(ThreadAdapter inputThread) {
+    public static ThreadDatabaseAdapter getThreadFromSQL(Long id) {
         try {
-            Object[] connectionData = DatabaseSQLQuery.getSQLQueryWithResult("readwrite/GetThreadWithID.sql", "UserDatabase.json", new String[] {inputThread.getID().toString()});
+            Object[] connectionData = DatabaseSQLQuery.getSQLQueryWithResult("readwrite/GetThreadWithID.sql", "UserDatabase.json", new String[] {id.toString()});
             ResultSet rs = (ResultSet) connectionData[1];
             rs.next();
-            ThreadAdapter thread = new ThreadAdapter(rs.getString("Name"), rs.getLong("ThreadID"), rs.getLong("ParentID"));
+            ThreadDatabaseAdapter thread = new ThreadDatabaseAdapter(id, rs.getLong("OriginalCreatorID"));
             ((Connection) connectionData[0]).close();
             return thread;
         } catch (SQLException e) {
             if (e.getMessage().equals("The result set has no current row.")) {
-                ThreadAdapter thread = new ThreadAdapter(inputThread.getName(), inputThread.getID(), inputThread.getParentID());
+                ThreadDatabaseAdapter thread = new ThreadDatabaseAdapter(id, -1L);
                 try {
-                    DatabaseSQLQuery.runSQLQuery("readwrite/InsertThread.sql", "UserDatabase.json", new String[] {thread.getID().toString(), thread.getParentID().toString(), thread.getName()});
+                    DatabaseSQLQuery.runSQLQuery("readwrite/InsertThread.sql", "UserDatabase.json", new String[] {id.toString(), "-1"});
                     return thread;
                 } catch (SQLException e1) {
-                    System.out.println("Error updating thread " + inputThread.getName() + " in database, retrying...");
-                    try {Thread.sleep(1000);} catch (InterruptedException e2) {}
+                    System.out.println("Thread not inserted to database but sucessfully loaded");
                     System.out.println(e1.getMessage());
                     e1.printStackTrace();
                     return thread;
                 }
             }
-            return getThreadFromSQL(inputThread);
+            return getThreadFromSQL(id);
         }
     }
 
-    public static void pushThreadToSQL(ThreadAdapter thread, Long userID) {
+    
+
+    public static void updateGuildInSQL(Guild guild) {
         try {
-            DatabaseSQLQuery.runSQLQuery("readwrite/InsertNewThread.sql", "UserDatabase.json", new String[] {thread.getID().toString(), thread.getParentID().toString(), thread.getName(), userID.toString()});
+            DatabaseSQLQuery.runSQLQuery("readwrite/UpdateGuild.sql", "UserDatabase.json", new String[] {guild.getId().toString()});
         } catch (SQLException e) {
-            System.out.println("Error updating thread " + thread.getName() + " in database, retrying...");
-            try {Thread.sleep(1000);} catch (InterruptedException e2) {}
+            System.out.println("Error updating guild " + guild.getId() + " in database, retrying...");
             System.out.println(e.getMessage());
             e.printStackTrace();
-            pushThreadToSQL(thread, userID);
+            try {java.lang.Thread.sleep(1000);} catch (InterruptedException e2) {}
+            updateGuildInSQL(guild);
+        }
+    }
+    
+    public static void updateCategoryInSQL(Category category) {
+        try {
+            DatabaseSQLQuery.runSQLQuery("readwrite/UpdateCategory.sql", "UserDatabase.json", new String[] {category.getId().toString()});
+        } catch (SQLException e) {
+            System.out.println("Error updating category " + category.getId() + " in database, retrying...");
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            try {java.lang.Thread.sleep(1000);} catch (InterruptedException e2) {}
+            updateCategoryInSQL(category);
+        }
+    }
+    
+    public static void updateChannelInSQL(Channel channel) {
+        try {
+            DatabaseSQLQuery.runSQLQuery("readwrite/UpdateChannel.sql", "UserDatabase.json", new String[] {channel.getId().toString()});
+        } catch (SQLException e) {
+            System.out.println("Error updating channel " + channel.getId() + " in database, retrying...");
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            try {java.lang.Thread.sleep(1000);} catch (InterruptedException e2) {}
+            updateChannelInSQL(channel);
+        }
+    }
+
+    public static void updateThreadInSQL(Thread thread) {
+        try {
+            DatabaseSQLQuery.runSQLQuery("readwrite/UpdateThread.sql", "UserDatabase.json", new String[] {thread.getId().toString(), thread.getCreatorUserId().toString()});
+        } catch (SQLException e) {
+            System.out.println("Error updating thread " + thread.getId() + " in database, retrying...");
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            try {java.lang.Thread.sleep(1000);} catch (InterruptedException e2) {}
+            updateThreadInSQL(thread);
+        }
+    }
+
+    public static void pushThreadToSQL(Long id, Long userID) {
+        try {
+            DatabaseSQLQuery.runSQLQuery("readwrite/UpdateThread.sql", "UserDatabase.json", new String[] {id.toString(), userID.toString()});
+        } catch (SQLException e) {
+            System.out.println("Error updating thread " + id + " in database, retrying...");
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            try {java.lang.Thread.sleep(1000);} catch (InterruptedException e2) {}
+            pushThreadToSQL(id, userID);
         }
     }
 }

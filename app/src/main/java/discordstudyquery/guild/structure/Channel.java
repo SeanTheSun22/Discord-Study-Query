@@ -1,8 +1,9 @@
 package discordstudyquery.guild.structure;
 
-import discordstudyquery.adapter.ComponentAdapter;
-import discordstudyquery.adapter.ThreadAdapter;
 import discordstudyquery.database.DatabaseEditor;
+import discordstudyquery.database.databaseadapter.ThreadDatabaseAdapter;
+import discordstudyquery.jdaadapter.AbstractJDAAdapter;
+import discordstudyquery.jdaadapter.ThreadJDAAdapter;
 
 public class Channel extends AbstractDiscordContainer {
     public Channel(String name, Long id, Category parent) {
@@ -12,9 +13,15 @@ public class Channel extends AbstractDiscordContainer {
         super(name, id, parent);
     }
 
-    public void loadChild(ComponentAdapter adapter) {
-        ThreadAdapter threadAdapter = DatabaseEditor.getThreadFromSQL((ThreadAdapter) adapter);
-        Thread child = new Thread(threadAdapter.getName(), threadAdapter.getID(), this);
+    public void loadChild(AbstractJDAAdapter adapter) {
+        if (!(adapter instanceof ThreadJDAAdapter)) {throw new UnsupportedOperationException("Channel child must be a Thread");}
+        ThreadDatabaseAdapter threadAdapter = DatabaseEditor.getThreadFromSQL(adapter.getID());
+        Thread child = new Thread(adapter.getName(), threadAdapter.getID(), this, threadAdapter.getOriginalCreatorId());
         registerChild(child);
+    }
+
+    public void unload() {
+        DatabaseEditor.updateChannelInSQL(this);
+        unregister();
     }
 }

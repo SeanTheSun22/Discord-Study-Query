@@ -1,11 +1,11 @@
 package discordstudyquery.discord.listeners;
 
-import discordstudyquery.adapter.CategoryAdapter;
-import discordstudyquery.adapter.ChannelAdapter;
-import discordstudyquery.adapter.ComponentAdapter;
-import discordstudyquery.adapter.GuildAdapter;
-import discordstudyquery.adapter.ThreadAdapter;
 import discordstudyquery.guild.DiscordModel;
+import discordstudyquery.jdaadapter.AbstractJDAAdapter;
+import discordstudyquery.jdaadapter.CategoryJDAAdapter;
+import discordstudyquery.jdaadapter.ChannelJDAAdapter;
+import discordstudyquery.jdaadapter.GuildJDAAdapter;
+import discordstudyquery.jdaadapter.ThreadJDAAdapter;
 import net.dv8tion.jda.api.entities.channel.concrete.ThreadChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -33,26 +33,26 @@ public class LoadComponentListener extends ListenerAdapter {
         public void run() {
             if (model.contains(Long.valueOf(event.getChannel().getId()))) return;
             
-            ArrayList<ComponentAdapter> componentStack = new ArrayList<ComponentAdapter>();
+            ArrayList<AbstractJDAAdapter> componentStack = new ArrayList<AbstractJDAAdapter>();
             switch(event.getChannelType()) {
                 case TEXT:
-                    componentStack.add(new GuildAdapter(event.getGuild().getName(), event.getGuild().getIdLong()));
+                    componentStack.add(new GuildJDAAdapter(event.getGuild().getName(), event.getGuild().getIdLong()));
                     if (event.getMessage().getCategory() == null) {
-                        componentStack.add(new ChannelAdapter(event.getChannel().getName(), event.getChannel().getIdLong(), event.getGuild().getIdLong()));
+                        componentStack.add(new ChannelJDAAdapter(event.getChannel().getName(), event.getChannel().getIdLong(), event.getGuild().getIdLong()));
                     } else {
-                        componentStack.add(new CategoryAdapter(event.getMessage().getCategory().getName(), event.getMessage().getCategory().getIdLong(), event.getGuild().getIdLong()));
-                        componentStack.add(new ChannelAdapter(event.getChannel().getName(), event.getChannel().getIdLong(), event.getMessage().getCategory().getIdLong()));
+                        componentStack.add(new CategoryJDAAdapter(event.getMessage().getCategory().getName(), event.getMessage().getCategory().getIdLong(), event.getGuild().getIdLong()));
+                        componentStack.add(new ChannelJDAAdapter(event.getChannel().getName(), event.getChannel().getIdLong(), event.getMessage().getCategory().getIdLong()));
                     } 
                     break;
                 case GUILD_PUBLIC_THREAD:
-                    componentStack.add(new GuildAdapter(event.getGuild().getName(), event.getGuild().getIdLong()));
+                    componentStack.add(new GuildJDAAdapter(event.getGuild().getName(), event.getGuild().getIdLong()));
                     if (event.getMessage().getCategory() == null) {
-                        componentStack.add(new ChannelAdapter(((ThreadChannel) event.getChannel()).getParentChannel().getName(), ((ThreadChannel) event.getChannel()).getParentChannel().getIdLong(), event.getGuild().getIdLong()));
+                        componentStack.add(new ChannelJDAAdapter(((ThreadChannel) event.getChannel()).getParentChannel().getName(), ((ThreadChannel) event.getChannel()).getParentChannel().getIdLong(), event.getGuild().getIdLong()));
                     } else {
-                        componentStack.add(new CategoryAdapter(event.getMessage().getCategory().getName(), event.getMessage().getCategory().getIdLong(), event.getGuild().getIdLong()));
-                        componentStack.add(new ChannelAdapter(((ThreadChannel) event.getChannel()).getParentChannel().getName(), ((ThreadChannel) event.getChannel()).getParentChannel().getIdLong(), event.getMessage().getCategory().getIdLong()));
+                        componentStack.add(new CategoryJDAAdapter(event.getMessage().getCategory().getName(), event.getMessage().getCategory().getIdLong(), event.getGuild().getIdLong()));
+                        componentStack.add(new ChannelJDAAdapter(((ThreadChannel) event.getChannel()).getParentChannel().getName(), ((ThreadChannel) event.getChannel()).getParentChannel().getIdLong(), event.getMessage().getCategory().getIdLong()));
                     }
-                    componentStack.add(new ThreadAdapter(event.getChannel().getName(), event.getChannel().getIdLong(), ((ThreadChannel) event.getChannel()).getParentChannel().getIdLong()));
+                    componentStack.add(new ThreadJDAAdapter(event.getChannel().getName(), event.getChannel().getIdLong(), ((ThreadChannel) event.getChannel()).getParentChannel().getIdLong()));
                     break;
                 default:
                     return;

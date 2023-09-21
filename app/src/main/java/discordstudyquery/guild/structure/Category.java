@@ -1,17 +1,24 @@
 package discordstudyquery.guild.structure;
 
-import discordstudyquery.adapter.ChannelAdapter;
-import discordstudyquery.adapter.ComponentAdapter;
 import discordstudyquery.database.DatabaseEditor;
+import discordstudyquery.database.databaseadapter.ChannelDatabaseAdapter;
+import discordstudyquery.jdaadapter.AbstractJDAAdapter;
+import discordstudyquery.jdaadapter.ChannelJDAAdapter;
 
 public class Category extends AbstractDiscordContainer {
     public Category(String name, Long id, Guild parent) {
         super(name, id, parent);
     }
 
-    public void loadChild(ComponentAdapter adapter) {
-        ChannelAdapter channelAdapter = DatabaseEditor.getChannelFromSQL((ChannelAdapter) adapter);
-        Channel child = new Channel(channelAdapter.getName(), channelAdapter.getID(), this);
+    public void loadChild(AbstractJDAAdapter discordAdapter) {
+        if (!(discordAdapter instanceof ChannelJDAAdapter)) {throw new UnsupportedOperationException("Category child must be a Channel");}
+        ChannelDatabaseAdapter channelAdapter = DatabaseEditor.getChannelFromSQL(discordAdapter.getID());
+        Channel child = new Channel(discordAdapter.getName(), channelAdapter.getID(), this);
         registerChild(child);
+    }
+
+    public void unload() {
+        DatabaseEditor.updateCategoryInSQL(this);
+        unregister();
     }
 }

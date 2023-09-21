@@ -1,1 +1,2 @@
-INSERT INTO Guilds (GuildID, Name) VALUES ({0}, '{1}');
+INSERT INTO Guilds (GuildID, test) 
+VALUES ({0}, -1);

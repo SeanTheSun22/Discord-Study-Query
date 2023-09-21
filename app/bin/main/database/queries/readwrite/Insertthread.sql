@@ -1,1 +1,2 @@
-INSERT INTO Threads (ThreadID, ParentID, Name) VALUES ({0}, {1}, '{2}');
+INSERT INTO Threads (ThreadID, OriginalCreatorID) 
+VALUES ({0}, {1});

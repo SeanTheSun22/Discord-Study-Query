@@ -1,1 +1,2 @@
-INSERT INTO Channels (ChannelID, ParentID, Name) VALUES ({0}, {1}, '{2}');
+INSERT INTO Channels (ChannelID, test) 
+VALUES ({0}, -1);

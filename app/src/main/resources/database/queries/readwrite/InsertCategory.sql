@@ -1,1 +1,2 @@
-INSERT INTO Categories (CategoryID, ParentID, Name) VALUES ({0}, {1}, '{2}');
+INSERT INTO Categories (CategoryID, test) 
+VALUES ({0}, -1);

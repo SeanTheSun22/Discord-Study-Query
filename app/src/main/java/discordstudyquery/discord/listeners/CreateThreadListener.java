@@ -9,7 +9,6 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
-import discordstudyquery.adapter.ThreadAdapter;
 import discordstudyquery.database.DatabaseEditor;
 import discordstudyquery.guild.DiscordModel;
 
@@ -57,11 +56,12 @@ public class CreateThreadListener extends ListenerAdapter {
             while ((threads = textChannel.getThreadChannels()).size() == initialThreads.size()) try {Thread.sleep(100);} catch (InterruptedException e) {e.printStackTrace();}
             for (ThreadChannel thread : threads) {
                 if (thread.getName().equals(threadName)) {
-                    DatabaseEditor.pushThreadToSQL(new ThreadAdapter(threadName, thread.getIdLong(), textChannel.getIdLong()), event.getMessage().getAuthor().getIdLong());
+                    DatabaseEditor.pushThreadToSQL(thread.getIdLong(), event.getMessage().getAuthor().getIdLong());
                     thread.sendMessage("ok buddy").queue();
                     return;
                 }
             }
+            textChannel.sendMessage("lol something broke that thread isnt initialised properly :(").queue();
         }
     }
 }

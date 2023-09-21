@@ -41,17 +41,19 @@ public class DatabaseSQLQuery {
         Connection connection = DriverManager.getConnection(credentials.get("url"), credentials.get("username"), credentials.get("password"));
 
         Scanner scanner = new Scanner(DatabaseManager.class.getClassLoader().getResourceAsStream("database/queries/" + queryFilePath));
-        Statement statement = connection.createStatement();
+        
         String currentLine;
+        ArrayList<String> executeString = new ArrayList<String>();
         while (scanner.hasNextLine()) {
             currentLine = scanner.nextLine();
             for (int i = 0; i < arguments.length; i++) {
                 currentLine = currentLine.replace("{" + i + "}", arguments[i]);
             }
             System.out.println(currentLine);
-            statement.execute(currentLine);
+            executeString.add(currentLine);
         }
-
+        PreparedStatement statement = connection.prepareStatement(String.join(" ", executeString));
+        statement.executeUpdate();
         connection.close();
     }
 

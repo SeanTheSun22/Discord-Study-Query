@@ -18,6 +18,15 @@ import java.io.InputStream;
 import java.util.Map;
 
 public class DiscordClient {
+    DiscordModel model;
+    JDA jda;
+
+    public DiscordClient(DiscordModel model) {
+        super();
+        this.model = model;
+        init();
+    }
+
     public void init() {
         String token;
         try {
@@ -32,15 +41,16 @@ public class DiscordClient {
             return;
         }
 
-        DiscordModel model = new DiscordModel();
-
-        @SuppressWarnings("unused")
-        JDA jda = JDABuilder.createDefault(token)
+        jda = JDABuilder.createDefault(token)
             .enableIntents(GatewayIntent.MESSAGE_CONTENT)
             .addEventListeners(
                 new CreateThreadListener(model),
                 new LoadComponentListener(model))
             .build();
+    }
+
+    public void shutdown() {
+        jda.shutdown();
     }
 
     public static String readToken() throws FileNotFoundException, IOException {

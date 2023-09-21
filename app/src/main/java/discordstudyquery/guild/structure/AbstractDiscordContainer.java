@@ -3,7 +3,7 @@ package discordstudyquery.guild.structure;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
-import discordstudyquery.adapter.ComponentAdapter;
+import discordstudyquery.jdaadapter.AbstractJDAAdapter;
 
 public abstract class AbstractDiscordContainer {
     /*
@@ -12,10 +12,10 @@ public abstract class AbstractDiscordContainer {
      * Channels, and Threads.
      */
 
-    private String name;
-    private Long id;
+    protected String name;
+    protected Long id;
     private Long lastUpdatedTime;
-    private AbstractDiscordContainer parent;
+    protected AbstractDiscordContainer parent;
     private ArrayList<AbstractDiscordContainer> children = new ArrayList<AbstractDiscordContainer>();
 
     protected AbstractDiscordContainer(String name, Long id, AbstractDiscordContainer parent) {
@@ -30,6 +30,17 @@ public abstract class AbstractDiscordContainer {
         lastUpdatedTime = System.currentTimeMillis();
         if (this.getParent() != null) {this.getParent().updated();}
     }
+
+    public void cleanUp() {
+        for (AbstractDiscordContainer child : this.children) {
+            child.cleanUp();
+        }
+        if (System.currentTimeMillis() - lastUpdatedTime > 1200 * 1000) {
+            unloadAll();
+        }
+    }
+
+    public Long getId() {return this.id;}
 
     public void registerToParent(AbstractDiscordContainer parent) {
         unregister();
@@ -71,7 +82,14 @@ public abstract class AbstractDiscordContainer {
         throw new NoSuchElementException("No child with ID " + id + " found.");
     }
 
-    public abstract void loadChild(ComponentAdapter componentAdapter);
+    public abstract void loadChild(AbstractJDAAdapter adapter);
+    public abstract void unload();
+    public void unloadAll() {
+        for (int i = children.size() - 1; i >= 0; i--) {
+            children.get(i).unloadAll();
+            children.get(i).unload();
+        }
+    }
 
     private boolean equals(Long id) {
         return this.id.equals(id);
@@ -83,6 +101,7 @@ public abstract class AbstractDiscordContainer {
             return true;
         }
         for (AbstractDiscordContainer child : this.children) {
+            if (child == null) {System.out.println(children.toString()); break;}
             if (child.contains(id)) {return true;}
         }
         return false;
