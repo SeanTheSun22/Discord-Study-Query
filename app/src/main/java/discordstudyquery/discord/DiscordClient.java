@@ -2,6 +2,7 @@ package discordstudyquery.discord;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import discordstudyquery.discord.listeners.CloseThreadListener;
 import discordstudyquery.discord.listeners.CreateThreadListener;
 import discordstudyquery.discord.listeners.LoadComponentListener;
 import discordstudyquery.discord.listeners.PingModRoleListener;
@@ -47,7 +48,8 @@ public class DiscordClient {
             .addEventListeners(
                 new CreateThreadListener(model),
                 new LoadComponentListener(model),
-                new PingModRoleListener(model))
+                new PingModRoleListener(model),
+                new CloseThreadListener(model))
             .build();
     }
 
