@@ -1,4 +1,4 @@
-package discordstudyquery.jdaadapter;
+package discordstudyquery.discord.jdaadapter;
 
 public class CategoryJDAAdapter extends AbstractJDAAdapter {
     private Long parentID;

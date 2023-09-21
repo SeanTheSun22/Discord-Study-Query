@@ -1,7 +1,7 @@
 package discordstudyquery.guild;
 
 import discordstudyquery.guild.structure.Shard;
-import discordstudyquery.jdaadapter.AbstractJDAAdapter;
+import discordstudyquery.discord.jdaadapter.AbstractJDAAdapter;
 import discordstudyquery.guild.structure.AbstractDiscordContainer;
 
 import java.util.ArrayList;

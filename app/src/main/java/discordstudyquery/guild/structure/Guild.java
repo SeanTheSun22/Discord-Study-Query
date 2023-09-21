@@ -3,9 +3,9 @@ package discordstudyquery.guild.structure;
 import discordstudyquery.database.DatabaseEditor;
 import discordstudyquery.database.databaseadapter.CategoryDatabaseAdapter;
 import discordstudyquery.database.databaseadapter.ChannelDatabaseAdapter;
-import discordstudyquery.jdaadapter.AbstractJDAAdapter;
-import discordstudyquery.jdaadapter.CategoryJDAAdapter;
-import discordstudyquery.jdaadapter.ChannelJDAAdapter;
+import discordstudyquery.discord.jdaadapter.AbstractJDAAdapter;
+import discordstudyquery.discord.jdaadapter.CategoryJDAAdapter;
+import discordstudyquery.discord.jdaadapter.ChannelJDAAdapter;
 
 public class Guild extends AbstractDiscordContainer {
     public Guild(String name, Long id, Shard parent) {

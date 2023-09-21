@@ -2,8 +2,8 @@ package discordstudyquery.guild.structure;
 
 import discordstudyquery.database.DatabaseEditor;
 import discordstudyquery.database.databaseadapter.GuildDatabaseAdapter;
-import discordstudyquery.jdaadapter.AbstractJDAAdapter;
-import discordstudyquery.jdaadapter.GuildJDAAdapter;
+import discordstudyquery.discord.jdaadapter.AbstractJDAAdapter;
+import discordstudyquery.discord.jdaadapter.GuildJDAAdapter;
 
 public class Shard extends AbstractDiscordContainer {
     public Shard(String name, Long id) {

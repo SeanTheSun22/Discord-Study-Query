@@ -1,4 +1,4 @@
-package discordstudyquery.jdaadapter;
+package discordstudyquery.discord.jdaadapter;
 
 public class ChannelJDAAdapter extends AbstractJDAAdapter {
     private Long parentID;

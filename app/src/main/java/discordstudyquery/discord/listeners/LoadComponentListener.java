@@ -1,11 +1,11 @@
 package discordstudyquery.discord.listeners;
 
+import discordstudyquery.discord.jdaadapter.AbstractJDAAdapter;
+import discordstudyquery.discord.jdaadapter.CategoryJDAAdapter;
+import discordstudyquery.discord.jdaadapter.ChannelJDAAdapter;
+import discordstudyquery.discord.jdaadapter.GuildJDAAdapter;
+import discordstudyquery.discord.jdaadapter.ThreadJDAAdapter;
 import discordstudyquery.guild.DiscordModel;
-import discordstudyquery.jdaadapter.AbstractJDAAdapter;
-import discordstudyquery.jdaadapter.CategoryJDAAdapter;
-import discordstudyquery.jdaadapter.ChannelJDAAdapter;
-import discordstudyquery.jdaadapter.GuildJDAAdapter;
-import discordstudyquery.jdaadapter.ThreadJDAAdapter;
 import net.dv8tion.jda.api.entities.channel.concrete.ThreadChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;

@@ -1,7 +1,7 @@
 package discordstudyquery.guild.structure;
 
 import discordstudyquery.database.DatabaseEditor;
-import discordstudyquery.jdaadapter.AbstractJDAAdapter;
+import discordstudyquery.discord.jdaadapter.AbstractJDAAdapter;
 
 public class Thread extends AbstractDiscordContainer {
     private Long creatorUserId;

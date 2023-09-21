@@ -3,7 +3,7 @@ package discordstudyquery.guild.structure;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
-import discordstudyquery.jdaadapter.AbstractJDAAdapter;
+import discordstudyquery.discord.jdaadapter.AbstractJDAAdapter;
 
 public abstract class AbstractDiscordContainer {
     /*

@@ -2,8 +2,8 @@ package discordstudyquery.guild.structure;
 
 import discordstudyquery.database.DatabaseEditor;
 import discordstudyquery.database.databaseadapter.ChannelDatabaseAdapter;
-import discordstudyquery.jdaadapter.AbstractJDAAdapter;
-import discordstudyquery.jdaadapter.ChannelJDAAdapter;
+import discordstudyquery.discord.jdaadapter.AbstractJDAAdapter;
+import discordstudyquery.discord.jdaadapter.ChannelJDAAdapter;
 
 public class Category extends AbstractDiscordContainer {
     public Category(String name, Long id, Guild parent) {
