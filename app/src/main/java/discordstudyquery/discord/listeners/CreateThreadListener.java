@@ -41,12 +41,6 @@ public class CreateThreadListener extends ListenerAdapter {
             TextChannel textChannel = (TextChannel) event.getChannel();
             String threadName = contentSplit[1] + " " + contentSplit[2];
             List<ThreadChannel> initialThreads = textChannel.getThreadChannels();
-            for (ThreadChannel thread : initialThreads) {
-                if (thread.getName().equals(threadName)) {
-                    textChannel.sendMessage("bruh no duplcate please >:CCC").queue();
-                    return;
-                }
-            }
 
             while (!model.contains(textChannel.getIdLong())) try {Thread.sleep(100);} catch (InterruptedException e) {e.printStackTrace();}
             
@@ -63,5 +57,6 @@ public class CreateThreadListener extends ListenerAdapter {
             }
             textChannel.sendMessage("lol something broke that thread isnt initialised properly :(").queue();
         }
+ 
     }
 }

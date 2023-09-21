@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import discordstudyquery.discord.listeners.CreateThreadListener;
 import discordstudyquery.discord.listeners.LoadComponentListener;
+import discordstudyquery.discord.listeners.PingModRoleListener;
 import discordstudyquery.guild.DiscordModel;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -45,7 +46,8 @@ public class DiscordClient {
             .enableIntents(GatewayIntent.MESSAGE_CONTENT)
             .addEventListeners(
                 new CreateThreadListener(model),
-                new LoadComponentListener(model))
+                new LoadComponentListener(model),
+                new PingModRoleListener(model))
             .build();
     }
 

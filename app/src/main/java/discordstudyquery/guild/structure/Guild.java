@@ -19,7 +19,7 @@ public class Guild extends AbstractDiscordContainer {
             registerChild(child);
         } else if (discordAdapter instanceof ChannelJDAAdapter) {
             ChannelDatabaseAdapter channelAdapter = DatabaseEditor.getChannelFromSQL(discordAdapter.getID());
-            Channel child = new Channel(discordAdapter.getName(), channelAdapter.getID(), this);
+            Channel child = new Channel(discordAdapter.getName(), channelAdapter.getID(), this, channelAdapter.getPingRoleID(), channelAdapter.getModeratorRoleID());
             registerChild(child);
         } else {
             throw new UnsupportedOperationException("Guild child must be a Category or Channel");

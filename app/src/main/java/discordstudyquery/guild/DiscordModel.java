@@ -23,7 +23,9 @@ public class DiscordModel {
             current = current.getChildWithID(componentAdapter.getID());
         }
     }
-
+    public AbstractDiscordContainer getComponentWithID(Long id) {
+        return shard.getChildWithID(id);
+    }
     public void unloadAll() {
         System.out.println(shard);
         shard.unloadAll();

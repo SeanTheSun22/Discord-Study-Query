@@ -13,7 +13,7 @@ public class Category extends AbstractDiscordContainer {
     public void loadChild(AbstractJDAAdapter discordAdapter) {
         if (!(discordAdapter instanceof ChannelJDAAdapter)) {throw new UnsupportedOperationException("Category child must be a Channel");}
         ChannelDatabaseAdapter channelAdapter = DatabaseEditor.getChannelFromSQL(discordAdapter.getID());
-        Channel child = new Channel(discordAdapter.getName(), channelAdapter.getID(), this);
+        Channel child = new Channel(discordAdapter.getName(), channelAdapter.getID(), this, channelAdapter.getPingRoleID(), channelAdapter.getModeratorRoleID());
         registerChild(child);
     }
 

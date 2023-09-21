@@ -78,6 +78,9 @@ public abstract class AbstractDiscordContainer {
             if (child.equals(id)) {
                 return child;
             }
+            if (child.contains(id)) {
+                return child.getChildWithID(id);
+            }
         }
         throw new NoSuchElementException("No child with ID " + id + " found.");
     }

@@ -1,2 +1,2 @@
-INSERT INTO Channels (ChannelID, test) 
-VALUES ({0}, -1);
+INSERT INTO Channels (ChannelID, PingRoleID, ModeratorRoleID) 
+VALUES ({0}, -1, -1);

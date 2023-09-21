@@ -73,7 +73,7 @@ public class DatabaseEditor {
             ResultSet rs = (ResultSet) connectionData[1];
             rs.next();
             // use rs.getString("field") to get the data from the result set
-            ChannelDatabaseAdapter channel = new ChannelDatabaseAdapter(id);
+            ChannelDatabaseAdapter channel = new ChannelDatabaseAdapter(id, rs.getLong("PingRoleID"), rs.getLong("ModeratorRoleID"));
             ((Connection) connectionData[0]).close();
             return channel;
         } catch (SQLException e) {
@@ -146,7 +146,7 @@ public class DatabaseEditor {
     
     public static void updateChannelInSQL(Channel channel) {
         try {
-            DatabaseSQLQuery.runSQLQuery("readwrite/UpdateChannel.sql", "UserDatabase.json", new String[] {channel.getId().toString()});
+            DatabaseSQLQuery.runSQLQuery("readwrite/UpdateChannel.sql", "UserDatabase.json", new String[] {channel.getId().toString(), channel.getPingRoleID().toString(), channel.getModeratorRoleID().toString()});
         } catch (SQLException e) {
             System.out.println("Error updating channel " + channel.getId() + " in database, retrying...");
             System.out.println(e.getMessage());
