@@ -37,6 +37,10 @@ public class DatabaseEditor {
                     return guild;
                 }
             }
+            System.out.println("Error getting guild " + id + " from database, retrying...");
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            try {java.lang.Thread.sleep(1000);} catch (InterruptedException e2) {}
             return getGuildFromSQL(id);
         }
     }
@@ -63,6 +67,10 @@ public class DatabaseEditor {
                     return category;
                 }
             }
+            System.out.println("Error getting category " + id + " from database, retrying...");
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            try {java.lang.Thread.sleep(1000);} catch (InterruptedException e2) {}
             return getCategoryFromSQL(id);
         }
     }
@@ -89,6 +97,10 @@ public class DatabaseEditor {
                     return channel;
                 }
             }
+            System.out.println("Error getting channel " + id + " from database, retrying...");
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            try {java.lang.Thread.sleep(1000);} catch (InterruptedException e2) {}
             return getChannelFromSQL(id);
         }
     }
@@ -98,14 +110,14 @@ public class DatabaseEditor {
             Object[] connectionData = DatabaseSQLQuery.getSQLQueryWithResult("readwrite/GetThreadWithID.sql", "UserDatabase.json", new String[] {id.toString()});
             ResultSet rs = (ResultSet) connectionData[1];
             rs.next();
-            ThreadDatabaseAdapter thread = new ThreadDatabaseAdapter(id, rs.getLong("OriginalCreatorID"));
+            ThreadDatabaseAdapter thread = new ThreadDatabaseAdapter(id, rs.getLong("OriginalCreatorID"), rs.getLong("ReopenUserID"));
             ((Connection) connectionData[0]).close();
             return thread;
         } catch (SQLException e) {
             if (e.getMessage().equals("The result set has no current row.")) {
-                ThreadDatabaseAdapter thread = new ThreadDatabaseAdapter(id, -1L);
+                ThreadDatabaseAdapter thread = new ThreadDatabaseAdapter(id, -1L, -1L);
                 try {
-                    DatabaseSQLQuery.runSQLQuery("readwrite/InsertThread.sql", "UserDatabase.json", new String[] {id.toString(), "-1"});
+                    DatabaseSQLQuery.runSQLQuery("readwrite/InsertThread.sql", "UserDatabase.json", new String[] {id.toString(), "-1", "-1"});
                     return thread;
                 } catch (SQLException e1) {
                     System.out.println("Thread not inserted to database but sucessfully loaded");
@@ -114,6 +126,10 @@ public class DatabaseEditor {
                     return thread;
                 }
             }
+            System.out.println("Error getting thread " + id + " from database, retrying...");
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            try {java.lang.Thread.sleep(1000);} catch (InterruptedException e2) {}
             return getThreadFromSQL(id);
         }
     }
@@ -158,7 +174,7 @@ public class DatabaseEditor {
 
     public static void updateThreadInSQL(Thread thread) {
         try {
-            DatabaseSQLQuery.runSQLQuery("readwrite/UpdateThread.sql", "UserDatabase.json", new String[] {thread.getId().toString(), thread.getCreatorUserId().toString()});
+            DatabaseSQLQuery.runSQLQuery("readwrite/UpdateThread.sql", "UserDatabase.json", new String[] {thread.getId().toString(), thread.getCreatorUserID().toString(), thread.getReopenUserID().toString()});
         } catch (SQLException e) {
             System.out.println("Error updating thread " + thread.getId() + " in database, retrying...");
             System.out.println(e.getMessage());
@@ -170,7 +186,7 @@ public class DatabaseEditor {
 
     public static void pushThreadToSQL(Long id, Long userID) {
         try {
-            DatabaseSQLQuery.runSQLQuery("readwrite/UpdateThread.sql", "UserDatabase.json", new String[] {id.toString(), userID.toString()});
+            DatabaseSQLQuery.runSQLQuery("readwrite/UpdateThread.sql", "UserDatabase.json", new String[] {id.toString(), userID.toString(), "-1"});
         } catch (SQLException e) {
             System.out.println("Error updating thread " + id + " in database, retrying...");
             System.out.println(e.getMessage());

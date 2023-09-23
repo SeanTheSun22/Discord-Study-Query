@@ -6,6 +6,7 @@ import discordstudyquery.discord.listeners.CloseThreadListener;
 import discordstudyquery.discord.listeners.CreateThreadListener;
 import discordstudyquery.discord.listeners.LoadComponentListener;
 import discordstudyquery.discord.listeners.PingModRoleListener;
+import discordstudyquery.discord.listeners.ReOpenThreadListener;
 import discordstudyquery.guild.DiscordModel;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -49,7 +50,8 @@ public class DiscordClient {
                 new CreateThreadListener(model),
                 new LoadComponentListener(model),
                 new PingModRoleListener(model),
-                new CloseThreadListener(model))
+                new CloseThreadListener(model),
+                new ReOpenThreadListener(model))
             .build();
     }
 

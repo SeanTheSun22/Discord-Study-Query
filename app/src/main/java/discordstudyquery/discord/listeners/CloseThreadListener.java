@@ -8,6 +8,7 @@ import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.channel.concrete.ThreadChannel;
+import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import discordstudyquery.guild.structure.Thread;
@@ -35,7 +36,8 @@ public class CloseThreadListener extends ListenerAdapter {
             Member member = event.getMember();
             if (member == null) return;
             boolean hasPermission = false;
-            if ((((Thread) model.getComponentWithID(event.getChannel().getIdLong())).getCreatorUserId() == event.getAuthor().getIdLong()) || 
+            if ((((Thread) model.getComponentWithID(event.getChannel().getIdLong())).getCreatorUserID() == event.getAuthor().getIdLong()) ||
+               ((((Thread) model.getComponentWithID(event.getChannel().getIdLong())).getReopenUserID() == event.getAuthor().getIdLong())) ||
                 member.getPermissions().contains(Permission.MANAGE_CHANNEL)) hasPermission = true;
             for (Role role : member.getRoles()) { 
                 if (role.getIdLong() == ((Channel) model.getComponentWithID(((ThreadChannel) event.getChannel()).getParentChannel().getIdLong())).getModeratorRoleID()) { 
@@ -44,6 +46,9 @@ public class CloseThreadListener extends ListenerAdapter {
                 }
             }
             if (!hasPermission) return;
+            event.getChannel().sendMessage("Thread closed. Anyone may reopen the thread by reacting with :sob:.").queue((message) -> {
+                message.addReaction(Emoji.fromUnicode("U+1F62D")).queue();
+            });
             ((ThreadChannel) event.getChannel()).getManager().setLocked(true).queue();
         }
     }

@@ -48,9 +48,9 @@ public class DatabaseSQLQuery {
             for (int i = 0; i < arguments.length; i++) {
                 currentLine = currentLine.replace("{" + i + "}", arguments[i]);
             }
-            System.out.println(currentLine);
             executeString.add(currentLine);
         }
+        System.out.println(String.join(" ", executeString));
         PreparedStatement statement = connection.prepareStatement(String.join(" ", executeString));
         statement.executeUpdate();
         connection.close();

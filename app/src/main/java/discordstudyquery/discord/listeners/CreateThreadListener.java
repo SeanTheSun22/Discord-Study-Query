@@ -1,12 +1,10 @@
 package discordstudyquery.discord.listeners;
 
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
-import net.dv8tion.jda.api.entities.channel.concrete.ThreadChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 import java.util.Arrays;
-import java.util.List;
 
 import javax.annotation.Nonnull;
 
@@ -43,24 +41,18 @@ public class CreateThreadListener extends ListenerAdapter {
 
             TextChannel textChannel = (TextChannel) event.getChannel();
             String threadName = contentSplit[1] + " " + contentSplit[2];
-            List<ThreadChannel> initialThreads = textChannel.getThreadChannels();
 
             while (!model.contains(textChannel.getIdLong())) try {Thread.sleep(100);} catch (InterruptedException e) {e.printStackTrace();}
             
-            textChannel.createThreadChannel(threadName).queue();
-
-            List<ThreadChannel> threads;
-            while ((threads = textChannel.getThreadChannels()).size() == initialThreads.size()) try {Thread.sleep(100);} catch (InterruptedException e) {e.printStackTrace();}
-            for (ThreadChannel thread : threads) {
-                if (thread.getName().equals(threadName)) {
+            textChannel.createThreadChannel(threadName).queue((thread) -> {
                     DatabaseEditor.pushThreadToSQL(thread.getIdLong(), event.getMessage().getAuthor().getIdLong());
                     thread.sendMessage("Thank you for your query, someone will be with you shortly. Use 'query close' when you question has been answered.").queue();
-                    thread.sendMessage("Original question: " + contentSplit[3] + "\n<@&" + ((Channel) model.getComponentWithID(textChannel.getIdLong())).getPingRoleID() + "> pls help :pleading_face:").queue();
-                    return;
-                }
-            }
-            textChannel.sendMessage("lol something broke that thread isnt initialised properly :(").queue();
+                    String questionString = "Original question: " + contentSplit[3];
+                    if (((Channel) model.getComponentWithID(textChannel.getIdLong())).getPingRoleID() == -1L) {
+                        questionString +="\n<@&" + ((Channel) model.getComponentWithID(textChannel.getIdLong())).getPingRoleID() + "> pls help :pleading_face:";
+                    }
+                    thread.sendMessage(questionString).queue();
+            });
         }
- 
     }
 }

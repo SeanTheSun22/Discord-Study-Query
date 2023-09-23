@@ -27,7 +27,7 @@ public class Channel extends AbstractDiscordContainer {
     public void loadChild(AbstractJDAAdapter adapter) {
         if (!(adapter instanceof ThreadJDAAdapter)) {throw new UnsupportedOperationException("Channel child must be a Thread");}
         ThreadDatabaseAdapter threadAdapter = DatabaseEditor.getThreadFromSQL(adapter.getID());
-        Thread child = new Thread(adapter.getName(), threadAdapter.getID(), this, threadAdapter.getOriginalCreatorId());
+        Thread child = new Thread(adapter.getName(), threadAdapter.getID(), this, threadAdapter.getOriginalCreatorID(), threadAdapter.getReopenUserID());
         registerChild(child);
     }
 
