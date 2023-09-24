@@ -48,7 +48,7 @@ public class CreateThreadListener extends ListenerAdapter {
                     DatabaseEditor.pushThreadToSQL(thread.getIdLong(), event.getMessage().getAuthor().getIdLong());
                     thread.sendMessage("Thank you for your query, someone will be with you shortly. Use 'query close' when you question has been answered.").queue();
                     String questionString = "Original question: " + contentSplit[3];
-                    if (((Channel) model.getComponentWithID(textChannel.getIdLong())).getPingRoleID() == -1L) {
+                    if (((Channel) model.getComponentWithID(textChannel.getIdLong())).getPingRoleID() != -1L) {
                         questionString +="\n<@&" + ((Channel) model.getComponentWithID(textChannel.getIdLong())).getPingRoleID() + "> pls help :pleading_face:";
                     }
                     thread.sendMessage(questionString).queue();

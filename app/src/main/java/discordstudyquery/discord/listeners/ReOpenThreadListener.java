@@ -32,10 +32,13 @@ public class ReOpenThreadListener extends ListenerAdapter {
             if (!(event.getChannel() instanceof ThreadChannel)) return;
             if (!(((ThreadChannel) event.getChannel()).isLocked())) return;
             if (!event.getEmoji().equals(Emoji.fromUnicode("U+1F62D"))) return;
-            while (!model.contains(event.getChannel().getIdLong())) try {java.lang.Thread.sleep(100);} catch (InterruptedException e) {e.printStackTrace();}
-            event.getChannel().sendMessage("Thread reopened. Use 'query close' to close the thread again.").queue();
-            ((Thread) model.getComponentWithID(event.getChannel().getIdLong())).setReopenUserID(user.getIdLong());
-            ((ThreadChannel) event.getChannel()).getManager().setLocked(false).queue();
+            event.getChannel().retrieveMessageById(event.getMessageId()).queue(message -> {
+                if (!message.getAuthor().equals(event.getJDA().getSelfUser())) return;
+                while (!model.contains(event.getChannel().getIdLong())) try {java.lang.Thread.sleep(100);} catch (InterruptedException e) {e.printStackTrace();}
+                event.getChannel().sendMessage("Thread reopened by <@" + event.getUserId() + ">. Use 'query close' to close the thread again.").queue();
+                ((Thread) model.getComponentWithID(event.getChannel().getIdLong())).setReopenUserID(user.getIdLong());
+                ((ThreadChannel) event.getChannel()).getManager().setLocked(false).queue();
+            });
         }
     }
 }
