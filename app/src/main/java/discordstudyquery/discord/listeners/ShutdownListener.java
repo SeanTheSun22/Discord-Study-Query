@@ -15,6 +15,10 @@ public class ShutdownListener extends ListenerAdapter {
             event.getChannel().sendMessage("stopping").queue(message -> {
                 App.stop();
             });
+        } else if (event.getMessage().getContentRaw().toLowerCase().equals("restart")) {
+            event.getChannel().sendMessage("restarting").queue(message -> {
+                App.restart();
+            });
         }
     }
 }

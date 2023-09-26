@@ -55,6 +55,12 @@ public class DiscordClient {
                 new ReOpenThreadListener(model),
                 new ShutdownListener())
             .build();
+            
+        jda.retrieveUserById(313193470552440832L).queue(user -> {
+            user.openPrivateChannel().queue(channel -> {
+                channel.sendMessage("StudyQuery started :)").queue();
+            });      
+        });
     }
 
     public void shutdown() {

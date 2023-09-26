@@ -43,3 +43,21 @@ tasks.named('test') {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
 }
+
+task cdRun {
+    doLast {
+        def gitPullResult = new ProcessBuilder("bash", "-c", "git pull").redirectErrorStream(true).start()
+        gitPullResult.waitFor()
+
+        if (gitPullResult.exitValue() != 0) {
+            throw new GradleException("Git pull failed with exit code ${gitPullResult.exitValue()}")
+        }
+
+        def gradleRunResult = new ProcessBuilder("bash", "-c", "gradle run").redirectErrorStream(true).start()
+        gradleRunResult.waitFor()
+
+        if (gradleRunResult.exitValue() == 1) {
+            new ProcessBuilder("bash", "-c", "gradle cdRun").redirectErrorStream(true).start()
+        }
+    }
+}

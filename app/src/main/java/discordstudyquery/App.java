@@ -32,4 +32,12 @@ public class App {
         LogToFileAndConsole.close();
         System.exit(0);
     }
+
+    public static void restart() {
+        instance.client.shutdown();
+        instance.model.unloadAll();
+        instance.timer.cancel();
+        LogToFileAndConsole.close();
+        System.exit(1);
+    }
 }
