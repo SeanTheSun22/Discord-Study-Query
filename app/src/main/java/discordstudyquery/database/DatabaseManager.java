@@ -4,7 +4,7 @@ import java.sql.SQLException;
 
 public class DatabaseManager {
     public static void main(String[] args) throws SQLException {
-        createDiscordModelTable();
+        
     }
     public static boolean createLogin(String username, String password) throws SQLException {
         try {

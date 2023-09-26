@@ -12,6 +12,7 @@ public class ShutdownListener extends ListenerAdapter {
         if (event.getChannelType() != ChannelType.PRIVATE) return;
         if (!event.getAuthor().getId().equals("313193470552440832")) return;
         if (event.getMessage().getContentRaw().toLowerCase().equals("stop")) {
+            event.getChannel().sendMessage("stopping").queue();
             App.stop();
         }
     }
