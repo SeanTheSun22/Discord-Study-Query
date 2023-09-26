@@ -68,8 +68,8 @@ public class DiscordClient {
          *     "token":"<token>"
          * }
          */
-        InputStream inputStream = DiscordClient.class.getClassLoader().getResourceAsStream("credentials/discord/token.json");
-        if (inputStream == null) {throw new FileNotFoundException("File not found: " + "credentials/discord/token.json");}
+        InputStream inputStream = DiscordClient.class.getClassLoader().getResourceAsStream("credentials/discord/Token.json");
+        if (inputStream == null) {throw new FileNotFoundException("File not found: " + "credentials/discord/Token.json");}
         Map<String, String> token = new ObjectMapper().readValue(inputStream, new TypeReference<Map<String, String>>() {});
         return token.get("token");
     }
