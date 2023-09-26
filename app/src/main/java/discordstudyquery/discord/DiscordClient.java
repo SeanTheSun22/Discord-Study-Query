@@ -7,6 +7,7 @@ import discordstudyquery.discord.listeners.CreateThreadListener;
 import discordstudyquery.discord.listeners.LoadComponentListener;
 import discordstudyquery.discord.listeners.PingModRoleListener;
 import discordstudyquery.discord.listeners.ReOpenThreadListener;
+import discordstudyquery.discord.listeners.ShutdownListener;
 import discordstudyquery.guild.DiscordModel;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -51,7 +52,8 @@ public class DiscordClient {
                 new LoadComponentListener(model),
                 new PingModRoleListener(model),
                 new CloseThreadListener(model),
-                new ReOpenThreadListener(model))
+                new ReOpenThreadListener(model),
+                new ShutdownListener())
             .build();
     }
 
@@ -70,5 +72,9 @@ public class DiscordClient {
         if (inputStream == null) {throw new FileNotFoundException("File not found: " + "credentials/discord/token.json");}
         Map<String, String> token = new ObjectMapper().readValue(inputStream, new TypeReference<Map<String, String>>() {});
         return token.get("token");
+    }
+
+    public JDA getJDA() {
+        return jda;
     }
 }

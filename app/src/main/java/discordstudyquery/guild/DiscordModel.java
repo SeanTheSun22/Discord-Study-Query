@@ -7,11 +7,15 @@ import discordstudyquery.guild.structure.AbstractDiscordContainer;
 import java.util.ArrayList;
 
 public class DiscordModel {
-    public static Long SHARD_COUNT = 0L;
-    Shard shard;
+    private static Long SHARD_COUNT = 0L;
+    private Shard shard;
     public DiscordModel() {
         shard = new Shard("Shard", SHARD_COUNT);
         SHARD_COUNT++;
+    }
+
+    public Shard getShard() {
+        return shard;
     }
 
     public void loadComponent(ArrayList<AbstractJDAAdapter> componentStack) {

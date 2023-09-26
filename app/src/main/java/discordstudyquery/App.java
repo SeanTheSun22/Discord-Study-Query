@@ -3,43 +3,33 @@
  */
 package discordstudyquery;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-
+import discordstudyquery.database.DatabaseEditor;
 import discordstudyquery.discord.DiscordClient;
 import discordstudyquery.guild.DiscordModel;
 import discordstudyquery.eventdispatch.DispatchTimer;
 
 public class App {
+    private static App instance = new App();
     private DiscordModel model;
     private DiscordClient client;
     private DispatchTimer timer;
     public static void main(String[] args) throws Exception {
-        new App().init();
+        instance.init();
     }
 
     public void init() {
-        JFrame window = new JFrame("Discord Study Query");
-        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        window.setVisible(true);
-        JButton shutdownButton = new JButton("Shutdown");
-        shutdownButton.addActionListener(e -> {
-            stop();
-        });
-        window.add(shutdownButton);
-        window.pack();
-
-        // try {DatabaseManager.createDiscordModelTable();} catch (Exception e) {e.printStackTrace();}
-
+        LogToFileAndConsole.set();
         model = new DiscordModel();
         client = new DiscordClient(model);
         timer = new DispatchTimer(model);
+        DatabaseEditor.setJDA(client.getJDA());
     }
 
-    public void stop() {
-        client.shutdown();
-        model.unloadAll();
-        timer.cancel();
+    public static void stop() {
+        instance.client.shutdown();
+        instance.model.unloadAll();
+        instance.timer.cancel();
+        LogToFileAndConsole.close();
         System.exit(0);
     }
 }

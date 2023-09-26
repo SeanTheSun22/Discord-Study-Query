@@ -38,7 +38,9 @@ public class DatabaseSQLQuery {
         }
 
         Connection connection = DriverManager.getConnection(credentials.get("url"), credentials.get("username"), credentials.get("password"));
-
+        
+        connection.setNetworkTimeout(null, 10000);
+        
         Scanner scanner = new Scanner(DatabaseManager.class.getClassLoader().getResourceAsStream("database/queries/" + queryFilePath));
         
         String currentLine;
