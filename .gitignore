@@ -1,5 +1,6 @@
 .vscode
 .gradle
+app/log.txt
 
 # Ignore Gradle build directory
 **/build/
