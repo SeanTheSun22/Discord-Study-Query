@@ -36,7 +36,7 @@ public class CreateThreadListener extends ListenerAdapter {
 
             String content = event.getMessage().getContentRaw();
             String[] contentSplit = content.split(" ");
-            if (contentSplit.length < 4 || !contentSplit[0].equals("query")) return;
+            if (contentSplit.length < 4 || !contentSplit[0].toLowerCase().equals("query")) return;
             contentSplit[3] = String.join(" ", Arrays.copyOfRange(contentSplit, 3, contentSplit.length));
 
             TextChannel textChannel = (TextChannel) event.getChannel();
